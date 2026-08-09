@@ -17,7 +17,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # File database
 DB_FILE = 'files.json'
-BASE_URL = os.environ.get('BASE_URL', 'http://localhost:5000')
+BASE_URL = os.environ.get('BASE_URL', 'https://filetolink-ten.vercel.app')
 
 # ============================================
 # DATABASE FUNCTIONS
@@ -776,6 +776,5 @@ def too_large(e):
     return jsonify({'error': 'File too large! Max 5 GB'}), 413
 
 if __name__ == '__main__':
-    # Get port from environment for Vercel
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
