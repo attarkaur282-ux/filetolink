@@ -337,10 +337,10 @@ def list_files():
     return jsonify({'files': files})
 
 # =============================================
-# 🚀 VERCEL EXPORT (IMPORTANT!)
+# 🚀 VERCEL EXPORT
 # =============================================
 # Vercel needs this exact export — 'app' object
-# No need to change anything else
+# =============================================
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
