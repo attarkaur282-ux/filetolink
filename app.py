@@ -339,7 +339,7 @@ def list_files():
 # =============================================
 # 🚀 VERCEL EXPORT (IMPORTANT!)
 # =============================================
-# Vercel needs this exact export
+# Vercel needs this exact export — 'app' object
 # No need to change anything else
 
 if __name__ == '__main__':
