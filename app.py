@@ -16,7 +16,7 @@ MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024  # 5 GB
 file_db = {}
 
 # ==================================================
-# 📄 HTML + CSS (Embedded in app.py)
+# 📄 HTML + CSS (Embedded)
 # ==================================================
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -71,7 +71,6 @@ HTML_PAGE = """
         <h1>📤 File to Link</h1>
         <p>Upload any file → Get instant download link</p>
 
-        <!-- DROP ZONE -->
         <div class="drop-zone" id="dropZone">
             <div class="icon">📂</div>
             <div class="text">
@@ -81,7 +80,6 @@ HTML_PAGE = """
             <input type="file" id="fileInput" />
         </div>
 
-        <!-- PROGRESS -->
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar">
                 <div class="fill" id="progressFill"></div>
@@ -92,14 +90,12 @@ HTML_PAGE = """
             </div>
         </div>
 
-        <!-- RESULT -->
         <div class="result-box" id="resultBox">
             <div class="label">✅ Upload complete! Share this link:</div>
             <div class="url" id="resultUrl">https://your-domain.com/api/download/abc123</div>
             <button class="btn" onclick="copyUrl()">📋 Copy Link</button>
         </div>
 
-        <!-- RECENT FILES -->
         <div class="file-list" id="fileList"></div>
 
         <div class="footer">
@@ -108,7 +104,6 @@ HTML_PAGE = """
     </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -116,7 +111,6 @@ HTML_PAGE = """
 // 🔥 FRONTEND JS
 // =============================================
 
-// ---------- DOM REFS ----------
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const progressContainer = document.getElementById('progressContainer');
@@ -130,7 +124,6 @@ const toast = document.getElementById('toast');
 
 let selectedFile = null;
 
-// ---------- DRAG & DROP ----------
 dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
     dropZone.classList.add('dragover');
@@ -152,7 +145,6 @@ fileInput.addEventListener('change', (e) => {
     }
 });
 
-// ---------- HANDLE FILE ----------
 function handleFile(file) {
     const maxSize = 5 * 1024 * 1024 * 1024;
     if (file.size > maxSize) {
@@ -163,9 +155,7 @@ function handleFile(file) {
     uploadFile(file);
 }
 
-// ---------- UPLOAD FILE ----------
 async function uploadFile(file) {
-    // Reset UI
     resultBox.style.display = 'none';
     progressContainer.style.display = 'block';
     progressFill.style.width = '0%';
@@ -224,7 +214,6 @@ async function uploadFile(file) {
     }
 }
 
-// ---------- COPY URL ----------
 function copyUrl() {
     const url = resultUrl.textContent;
     navigator.clipboard.writeText(url).then(() => {
@@ -239,7 +228,6 @@ function copyUrl() {
     });
 }
 
-// ---------- ADD FILE TO LIST ----------
 function addFileToList(name, url, size) {
     const div = document.createElement('div');
     div.className = 'file-item';
@@ -252,7 +240,6 @@ function addFileToList(name, url, size) {
     fileList.prepend(div);
 }
 
-// ---------- TOAST ----------
 function showToast(msg, type = '') {
     toast.textContent = msg;
     toast.className = 'toast' + (type === 'error' ? ' error' : '');
@@ -260,7 +247,6 @@ function showToast(msg, type = '') {
     setTimeout(() => { toast.style.display = 'none'; }, 3000);
 }
 
-// ---------- LOAD RECENT FILES ----------
 async function loadRecent() {
     try {
         const res = await fetch('/api/files');
@@ -351,7 +337,10 @@ def list_files():
     return jsonify({'files': files})
 
 # =============================================
-# 🚀 RUN
+# 🚀 VERCEL EXPORT (IMPORTANT!)
 # =============================================
+# Vercel needs this exact export
+# No need to change anything else
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
